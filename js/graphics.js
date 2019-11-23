@@ -5,9 +5,7 @@ export const drawCircle = (ctx, x, y, r, color) => {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
   ctx.fill();
-  ctx.stroke();
+  //ctx.stroke();
 
   ctx.fillStyle = prevFill;
 };
-
-export default null;
