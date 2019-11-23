@@ -59,18 +59,14 @@ export default class Bezier {
 
   calcMidPoints(t) {
     do {
-      if(this.layers.length == 0){
-        
+      if (this.layers.length == 0) {
       }
     } while (this.layers[this.layers.length - 1] > 1);
   }
-
 }
-calcArrayMidPoints(arr, t){
-  return new Array(arr.length - 1).fill(0).map(() => {
-    
-  })
-}
+const calcArrayMidPoints = (arr, t) => {
+  return new Array(arr.length - 1).fill(0).map(() => {});
+};
 
 export const getMidPoint = (a, b, t = 0.5) => {
   return new Vector2(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t);
