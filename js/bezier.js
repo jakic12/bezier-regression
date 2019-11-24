@@ -153,10 +153,10 @@ const calcArrayMidPoints = (arr, t) =>
     .fill(0)
     .map((_, i) => getMidPoint(arr[i], arr[i + 1], t));
 
-const vectorsToPoints = (vectors, color = "#000") =>
+export const vectorsToPoints = (vectors, color = "#000") =>
   vectors.map(v => new Point(v, color));
 
-const pointsToVectors = points => points.map(p => p.pos);
+export const pointsToVectors = points => points.map(p => p.pos);
 
 export const getMidPoint = (a, b, t = 0.5) => {
   return new Vector2(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t);

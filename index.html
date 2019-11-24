@@ -29,6 +29,19 @@
           />
         </div>
       </div>
+      <div class="sidebarSection">
+        <div class="title">
+          regression
+        </div>
+        <div class="body">
+          <label for="functionText">function to be approximated</label><br />
+          <div
+            id="functionEditor"
+            style="width:100%; height:100px;padding-top:10px;"
+          ></div>
+          <br />
+        </div>
+      </div>
     </aside>
     <div class="mainBody">
       <div class="canvasDiv">
@@ -36,9 +49,11 @@
       </div>
     </div>
 
-    <script src="js/Vector2.js?2" type="module"></script>
-    <script src="js/bezier.js?2" type="module"></script>
-    <script src="js/graphics.js?2" type="module"></script>
-    <script src="js/main.js?2" type="module"></script>
+    <script src="js/Vector2.js" type="module"></script>
+    <script src="js/bezier.js" type="module"></script>
+    <script src="js/graphics.js" type="module"></script>
+
+    <script src="libs/ace-builds/src-noconflict/ace.js"></script>
+    <script src="js/main.js" type="module"></script>
   </body>
 </html>

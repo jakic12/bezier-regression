@@ -1,9 +1,12 @@
-import Bezier from "./bezier.js";
+import Bezier, { vectorsToPoints } from "./bezier.js";
 import { drawCircle } from "./graphics.js";
+import { drawCoordinateSystem, drawFunction } from "./coordinateSystem.js";
+import Vector2 from "./Vector2.js";
 
 const canvas = document.getElementById(`mainCanvas`);
 const ctx = canvas.getContext("2d");
 const beziers = [];
+let regressionFunction = x => Math.sin(x / 100) * 300;
 let dragging = undefined;
 
 const handleResize = e => {
@@ -16,8 +19,8 @@ const handleResize = e => {
 const getMousePos = evt => {
   var rect = canvas.getBoundingClientRect();
   return {
-    x: evt.clientX - rect.left,
-    y: evt.clientY - rect.top
+    x: evt.clientX - rect.left - canvas.width / 2,
+    y: -evt.clientY - rect.top + canvas.height / 2
   };
 };
 
@@ -25,12 +28,26 @@ const drawBeziers = clear => {
   if (clear) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
+  drawCoordinateSystem(ctx);
+  drawFunction(ctx, regressionFunction);
   beziers.forEach(b => b.draw(ctx));
 };
 handleResize();
 
+const numOfPoints = 5;
 beziers.push(
   new Bezier({
+    points: vectorsToPoints(
+      new Array(numOfPoints)
+        .fill(0)
+        .map(
+          (_, i) =>
+            new Vector2(
+              i * (canvas.width / (numOfPoints - 1)) - canvas.width / 2,
+              (Math.random() * canvas.height * 2) / 2 - canvas.height / 2
+            )
+        )
+    ),
     drawConfig: {
       endRandomX: canvas.width,
       endRandomY: canvas.height
@@ -116,6 +133,19 @@ const handleAnimateMidPointLines = e => {
   }
 };
 animateMidPointLines.addEventListener("click", handleAnimateMidPointLines);
+
+var functionEditor = ace.edit("functionEditor");
+functionEditor.setTheme("ace/theme/monokai");
+functionEditor.session.setMode("ace/mode/javascript");
+functionEditor.setValue(regressionFunction.toString(), 1);
+
+functionEditor.session.on("change", delta => {
+  try {
+    regressionFunction = eval(functionEditor.getValue());
+  } catch (e) {
+    console.error(e);
+  }
+});
 //ui
 
 drawBeziers();
