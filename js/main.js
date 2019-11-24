@@ -37,7 +37,14 @@ beziers.push(
     }
   })
 );
-drawBeziers();
+beziers.push(
+  new Bezier({
+    drawConfig: {
+      endRandomX: canvas.width,
+      endRandomY: canvas.height
+    }
+  })
+);
 
 window.addEventListener("resize", handleResize);
 window.addEventListener("mousedown", e => {
@@ -66,3 +73,52 @@ window.addEventListener("mousemove", e => {
 window.addEventListener("mouseup", e => {
   dragging = undefined;
 });
+
+//ui
+const displayMidPointLines = document.getElementById("displayHelpers");
+const animateMidPointLines = document.getElementById("animateHelpers");
+const timePosition = document.getElementById("timePosition");
+
+const handleDisplayMidPointLines = e => {
+  beziers.forEach(b => {
+    b.drawConfig.drawMidPointLines = displayMidPointLines.checked;
+    b.drawConfig.drawMidPoints = displayMidPointLines.checked;
+  });
+  drawBeziers(true);
+};
+
+handleDisplayMidPointLines();
+displayMidPointLines.addEventListener("click", handleDisplayMidPointLines);
+
+const handleTimePosition = e => {
+  beziers.forEach(b => {
+    b.displayTime = timePosition.value / 100;
+  });
+};
+
+handleTimePosition();
+timePosition.addEventListener("input", handleTimePosition);
+
+let animate = false;
+let tPosition = 0;
+
+const handleAnimateMidPointLines = e => {
+  if (animateMidPointLines.checked) {
+    animateMidPointLines.checked = true;
+    timePosition.disabled = true;
+    animate = setInterval(() => {
+      timePosition.value = Math.sin(tPosition) * 50 + 50;
+      tPosition += 0.01;
+      handleTimePosition();
+    }, 10);
+  } else {
+    animateMidPointLines.checked = false;
+    clearInterval(animate);
+    animate = false;
+    timePosition.disabled = false;
+  }
+};
+animateMidPointLines.addEventListener("click", handleAnimateMidPointLines);
+//ui
+
+drawBeziers();

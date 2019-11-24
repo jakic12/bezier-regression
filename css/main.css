@@ -30,3 +30,22 @@ body {
 .mainBody .canvasDiv #mainCanvas {
   position: absolute;
 }
+
+.sidebar .sidebarSection {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  /*background: white;*/
+  padding: 10px;
+  border-radius: 3px;
+  border: white solid 1px;
+  color: white;
+}
+
+.sidebar .sidebarSection .title {
+  padding: 10px;
+  border-bottom: white 1px solid;
+}
+.sidebar .sidebarSection .body {
+  padding: 10px;
+}

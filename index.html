@@ -7,7 +7,29 @@
     <title>Bezier regression</title>
   </head>
   <body>
-    <aside class="sidebar"></aside>
+    <aside class="sidebar">
+      <div class="sidebarSection">
+        <div class="title">
+          helpers
+        </div>
+        <div class="body">
+          <label for="displayHelpers">display mid point lines</label>
+          <input type="checkbox" id="displayHelpers" /><br />
+
+          <label for="animateHelpers">animate</label>
+          <input type="checkbox" id="animateHelpers" /><br />
+          <br />
+          <label for="timePosition">ratio</label><br />
+          <input
+            type="range"
+            min="0"
+            max="100"
+            id="timePosition"
+            style="width:100%"
+          />
+        </div>
+      </div>
+    </aside>
     <div class="mainBody">
       <div class="canvasDiv">
         <canvas id="mainCanvas"></canvas>

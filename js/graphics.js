@@ -1,11 +1,49 @@
-export const drawCircle = (ctx, x, y, r, color) => {
+export const drawCircle = (ctx, x, y, r, color, noFill, strokeColor) => {
+  const prevStroke = ctx.strokeStyle;
   const prevFill = ctx.fillStyle;
-  ctx.fillStyle = color;
+  if (strokeColor) ctx.strokeStyle = strokeColor;
+  if (color) ctx.fillStyle = color;
 
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
-  ctx.fill();
-  //ctx.stroke();
+  if (!noFill) ctx.fill();
+  if (strokeColor) ctx.stroke();
 
-  ctx.fillStyle = prevFill;
+  if (strokeColor) ctx.strokeStyle = prevStroke;
+  if (color) ctx.fillStyle = prevFill;
+};
+
+export const drawLine = (ctx, x1, y1, x2, y2, color, thickness) => {
+  const prevStroke = ctx.strokeStyle;
+  const prevLineWidth = ctx.lineWidth;
+  if (thickness) ctx.lineWidth = thickness;
+
+  if (color) ctx.strokeStyle = color;
+
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+
+  if (color) ctx.strokeStyle = prevStroke;
+  if (thickness) ctx.lineWidth = prevLineWidth;
+};
+
+export const drawLineWithMultiplePoints = (ctx, points, color, thickness) => {
+  const prevStroke = ctx.strokeStyle;
+  const prevLineWidth = ctx.lineWidth;
+  if (thickness) ctx.lineWidth = thickness;
+  if (color) ctx.strokeStyle = color;
+
+  ctx.beginPath();
+  ctx.moveTo(points[0].x, points[0].y);
+  points.forEach((p, i) => {
+    if (i !== 0) {
+      ctx.lineTo(points[i].x, points[i].y);
+    }
+  });
+  ctx.stroke();
+
+  if (color) ctx.strokeStyle = prevStroke;
+  if (thickness) ctx.lineWidth = prevLineWidth;
 };
