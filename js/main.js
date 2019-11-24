@@ -37,14 +37,6 @@ beziers.push(
     }
   })
 );
-beziers.push(
-  new Bezier({
-    drawConfig: {
-      endRandomX: canvas.width,
-      endRandomY: canvas.height
-    }
-  })
-);
 
 window.addEventListener("resize", handleResize);
 window.addEventListener("mousedown", e => {
@@ -92,7 +84,7 @@ displayMidPointLines.addEventListener("click", handleDisplayMidPointLines);
 
 const handleTimePosition = e => {
   beziers.forEach(b => {
-    b.displayTime = timePosition.value / 100;
+    b.displayTime = timePosition.value / timePosition.max;
   });
 };
 
@@ -106,14 +98,19 @@ const handleAnimateMidPointLines = e => {
   if (animateMidPointLines.checked) {
     animateMidPointLines.checked = true;
     timePosition.disabled = true;
-    animate = setInterval(() => {
-      timePosition.value = Math.sin(tPosition) * 50 + 50;
+
+    const animateFrame = () => {
+      timePosition.value = (Math.sin(tPosition) / 2 + 0.5) * timePosition.max;
       tPosition += 0.01;
       handleTimePosition();
-    }, 10);
+      drawBeziers(true);
+
+      if (animateMidPointLines.checked) requestAnimationFrame(animateFrame);
+    };
+
+    animateFrame();
   } else {
     animateMidPointLines.checked = false;
-    clearInterval(animate);
     animate = false;
     timePosition.disabled = false;
   }
