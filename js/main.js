@@ -142,6 +142,7 @@ functionEditor.setValue(regressionFunction.toString(), 1);
 functionEditor.session.on("change", delta => {
   try {
     regressionFunction = eval(functionEditor.getValue());
+    drawBeziers(true);
   } catch (e) {
     console.error(e);
   }
