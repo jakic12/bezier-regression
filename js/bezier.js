@@ -7,7 +7,7 @@ export default class Bezier {
       {
         startDisplayTime: 0.5,
         drawBezierLine: true,
-        bezierDt: 0.01,
+        bezierDt: 0.001,
         bezierColor: "#fff",
         drawInputPoints: true,
         circleR: 10,

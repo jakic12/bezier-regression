@@ -3,7 +3,6 @@ import { drawCircle } from "./graphics.js";
 import { drawCoordinateSystem, drawFunction } from "./coordinateSystem.js";
 import Vector2 from "./Vector2.js";
 
-
 const canvas = document.getElementById(`mainCanvas`);
 const ctx = canvas.getContext("2d");
 var beziers = [];
@@ -11,7 +10,6 @@ var beziers = [];
 window.beziers = beziers;
 window.BezierGlobal = Bezier;
 
-  
 let regressionFunction = x => Math.sin(x / 100) * 300;
 let dragging = undefined;
 
@@ -64,11 +62,15 @@ beziers.push(
 // COOL STUFF
 
 /*
+
+every second across
 idx = 0;
 for(let i = 0; i < 2*Math.PI; i += 0.06){beziers[0].inputPoints.push(new Point(idx%2==0? new Vector2(Math.sin(i)*400,Math.cos(i)*400) : new Vector2(Math.sin(i-Math.PI)*400,Math.cos(i-Math.PI)*400), "red")); idx++}
+
+every second in the middle
+idx = 0;
+for(let i = 0; i < 2*Math.PI; i += 0.06){beziers[0].inputPoints.push(new Point(idx%2==0? new Vector2(Math.sin(i)*400,Math.cos(i)*400) : new Vector2(0,0), "red")); idx++}
 */
-
-
 
 // COOL STUFF
 
