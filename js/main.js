@@ -3,11 +3,14 @@ import { drawCircle } from "./graphics.js";
 import { drawCoordinateSystem, drawFunction } from "./coordinateSystem.js";
 import Vector2 from "./Vector2.js";
 
-var BezierGlobal = Bezier;
 
 const canvas = document.getElementById(`mainCanvas`);
 const ctx = canvas.getContext("2d");
 var beziers = [];
+
+window.beziers = beziers;
+window.BezierGlobal = Bezier;
+
 let regressionFunction = x => Math.sin(x / 100) * 300;
 let dragging = undefined;
 
