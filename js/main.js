@@ -11,6 +11,7 @@ var beziers = [];
 window.beziers = beziers;
 window.BezierGlobal = Bezier;
 
+  
 let regressionFunction = x => Math.sin(x / 100) * 300;
 let dragging = undefined;
 
@@ -59,6 +60,17 @@ beziers.push(
     }
   })
 );
+
+// COOL STUFF
+
+/*
+idx = 0;
+for(let i = 0; i < 2*Math.PI; i += 0.06){beziers[0].inputPoints.push(new Point(idx%2==0? new Vector2(Math.sin(i)*400,Math.cos(i)*400) : new Vector2(Math.sin(i-Math.PI)*400,Math.cos(i-Math.PI)*400), "red")); idx++}
+*/
+
+
+
+// COOL STUFF
 
 window.addEventListener("resize", handleResize);
 window.addEventListener("mousedown", e => {
