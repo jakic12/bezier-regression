@@ -83,7 +83,8 @@ export default class Bezier {
           ),
           this.inputPoints[this.inputPoints.length - 1]
         ],
-        this.drawConfig.bezierColor
+        this.drawConfig.bezierColor,
+        3
       );
     }
 
