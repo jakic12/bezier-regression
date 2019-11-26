@@ -69,6 +69,19 @@ export default class Bezier {
         );
       });
     }
+    if (this.drawConfig.drawMidPoints) {
+      midPointsAtT.forEach((layer, i) => {
+        const midPointColor =
+          i == midPointsAtT.length - 1
+            ? this.drawConfig.bezierColor
+            : this.drawConfig.colorPalette[
+                i % this.drawConfig.colorPalette.length
+              ];
+        layer.forEach(p => {
+          drawCircle(ctx, p.x, p.y, this.drawConfig.midPointR, midPointColor);
+        });
+      });
+    }
     if (this.drawConfig.drawBezierLine) {
       drawLineWithMultiplePoints(
         ctx,
@@ -84,19 +97,6 @@ export default class Bezier {
       );
     }
 
-    if (this.drawConfig.drawMidPoints) {
-      midPointsAtT.forEach((layer, i) => {
-        const midPointColor =
-          i == midPointsAtT.length - 1
-            ? this.drawConfig.bezierColor
-            : this.drawConfig.colorPalette[
-                i % this.drawConfig.colorPalette.length
-              ];
-        layer.forEach(p => {
-          drawCircle(ctx, p.x, p.y, this.drawConfig.midPointR, midPointColor);
-        });
-      });
-    }
 
     if (this.drawConfig.drawInputPoints) {
       this.inputPoints.forEach(p => {

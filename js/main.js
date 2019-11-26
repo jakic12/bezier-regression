@@ -2,7 +2,7 @@ import Bezier, { vectorsToPoints } from "./bezier.js";
 import { drawCircle } from "./graphics.js";
 import { drawCoordinateSystem, drawFunction } from "./coordinateSystem.js";
 import Vector2 from "./Vector2.js";
-import {getError} from "./regression.js"
+import regress, {getError} from "./regression.js"
 
 const canvas = document.getElementById(`mainCanvas`);
 const ctx = canvas.getContext("2d");
@@ -64,6 +64,8 @@ beziers.push(
   })
 );
 
+
+regress(beziers[0], regressionFunction, 0.01)
 
 
 // COOL STUFF
