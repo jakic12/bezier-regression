@@ -4,7 +4,7 @@ body {
   padding: 0;
   margin: 0;
   height: 100vh;
-  background: #2f3640;
+  background: #273136;
 }
 
 .sidebar {
@@ -12,7 +12,7 @@ body {
   height: 100%;
   flex-grow: 0;
   flex-shrink: 0;
-  background: #353b48;
+  background: #1d2528;
 }
 
 .mainBody {

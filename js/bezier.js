@@ -20,15 +20,12 @@ export default class Bezier {
         endRandomY: 500,
         inputPointsColor: "#fff",
         colorPalette: [
-          "#00a8ff",
-          "#e84118",
-          "#9c88ff",
-          "#fbc531",
-          "#4cd137",
-          "#487eb0",
-          "#0097e6",
-          "#8c7ae6",
-          "#273c75"
+          "#78dce8",
+          "#ff6188",
+          "#fc9867",
+          "#ffd866",
+          "#a9dc76",
+          "#ab9df2",
         ]
       },
       drawConfig
@@ -60,7 +57,7 @@ export default class Bezier {
   draw(ctx) {
     const midPointsAtT = [
       this.inputPoints,
-      ...this.calcMidPoints(this.inputPoints, this.displayTime)
+      ...this.calcMidPoints(this.displayTime)
     ];
 
     if (this.drawConfig.drawMidPointLines) {
@@ -78,13 +75,12 @@ export default class Bezier {
         [
           this.inputPoints[0],
           ...this.calcBezierPointsTroughTime(
-            this.inputPoints,
             this.drawConfig.bezierDt
           ),
           this.inputPoints[this.inputPoints.length - 1]
         ],
         this.drawConfig.bezierColor,
-        3
+        5
       );
     }
 
@@ -117,28 +113,33 @@ export default class Bezier {
     }
   }
 
-  calcMidPointsTroughTime(inputPoints, tStep = 0.01, tStart = 0, tEnd = 1) {
+  calcEndPointAtT(t){
+    const out = this.calcMidPoints(t);
+    return out[out.length - 1][0]
+  }
+
+  calcMidPointsTroughTime(tStep = 0.01, tStart = 0, tEnd = 1) {
     const times = [];
     for (; tStart < tEnd; tStart += tStep) {
-      times.push(this.calcMidPoints(inputPoints, tStart));
+      times.push(this.calcMidPoints(tStart));
     }
     return times;
   }
 
-  calcBezierPointsTroughTime(inputPoints, tStep = 0.01, tStart = 0, tEnd = 1) {
+  calcBezierPointsTroughTime(tStep = 0.01, tStart = 0, tEnd = 1) {
     const times = [];
     for (; tStart < tEnd; tStart += tStep) {
-      const midPoints = this.calcMidPoints(inputPoints, tStart);
+      const midPoints = this.calcMidPoints(tStart);
       times.push(midPoints[midPoints.length - 1][0]);
     }
     return times;
   }
 
-  calcMidPoints(inputPoints, t) {
+  calcMidPoints(t) {
     const layers = [];
     do {
       if (layers.length == 0) {
-        layers.push(vectorsToPoints(calcArrayMidPoints(inputPoints, t)));
+        layers.push(vectorsToPoints(calcArrayMidPoints(this.inputPoints, t)));
       } else {
         layers.push(
           vectorsToPoints(calcArrayMidPoints(layers[layers.length - 1], t))

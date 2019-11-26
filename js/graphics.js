@@ -19,7 +19,7 @@ export const drawCircle = (ctx, x, y, r, color, noFill, strokeColor) => {
   if (color) ctx.fillStyle = prevFill;
 };
 
-export const drawLine = (ctx, x1, y1, x2, y2, color, thickness) => {
+export const drawLine = (ctx, x1, y1, x2, y2, color, thickness=3) => {
   const prevStroke = ctx.strokeStyle;
   const prevLineWidth = ctx.lineWidth;
   if (thickness) ctx.lineWidth = thickness;
@@ -35,7 +35,7 @@ export const drawLine = (ctx, x1, y1, x2, y2, color, thickness) => {
   if (thickness) ctx.lineWidth = prevLineWidth;
 };
 
-export const drawLineWithMultiplePoints = (ctx, points, color, thickness) => {
+export const drawLineWithMultiplePoints = (ctx, points, color, thickness=3) => {
   const prevStroke = ctx.strokeStyle;
   const prevLineWidth = ctx.lineWidth;
   if (thickness) ctx.lineWidth = thickness;
