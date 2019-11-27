@@ -25,7 +25,7 @@ export default class Bezier {
           "#fc9867",
           "#ffd866",
           "#a9dc76",
-          "#ab9df2",
+          "#ab9df2"
         ]
       },
       drawConfig
@@ -87,16 +87,13 @@ export default class Bezier {
         ctx,
         [
           this.inputPoints[0],
-          ...this.calcBezierPointsTroughTime(
-            this.drawConfig.bezierDt
-          ),
+          ...this.calcBezierPointsTroughTime(this.drawConfig.bezierDt),
           this.inputPoints[this.inputPoints.length - 1]
         ],
         this.drawConfig.bezierColor,
         5
       );
     }
-
 
     if (this.drawConfig.drawInputPoints) {
       this.inputPoints.forEach(p => {
@@ -113,9 +110,9 @@ export default class Bezier {
     }
   }
 
-  calcEndPointAtT(t){
+  calcEndPointAtT(t) {
     const out = this.calcMidPoints(t);
-    return out[out.length - 1][0]
+    return out[out.length - 1][0];
   }
 
   calcMidPointsTroughTime(tStep = 0.01, tStart = 0, tEnd = 1) {
@@ -182,5 +179,9 @@ class Point {
   }
   set y(val) {
     this.pos.y = val;
+  }
+
+  clone() {
+    return new Point(new Vector2(this.pos.x, this.pos.y), this.color);
   }
 }

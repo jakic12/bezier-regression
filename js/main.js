@@ -2,7 +2,7 @@ import Bezier, { vectorsToPoints } from "./bezier.js";
 import { drawCircle } from "./graphics.js";
 import { drawCoordinateSystem, drawFunction } from "./coordinateSystem.js";
 import Vector2 from "./Vector2.js";
-import regress, {getError} from "./regression.js"
+import regress, { getError } from "./regression.js";
 
 const canvas = document.getElementById(`mainCanvas`);
 const ctx = canvas.getContext("2d");
@@ -37,8 +37,8 @@ const drawBeziers = clear => {
   drawFunction(ctx, regressionFunction);
   beziers.forEach(b => b.draw(ctx));
 
-  if(beziers[0]){
-    console.log(getError(beziers[0], regressionFunction, 0.01));  
+  if (beziers[0]) {
+    console.log(getError(beziers[0], regressionFunction, 0.01));
   }
 };
 handleResize();
@@ -63,10 +63,6 @@ beziers.push(
     }
   })
 );
-
-
-regress(beziers[0], regressionFunction, 0.01)
-
 
 // COOL STUFF
 
@@ -173,6 +169,85 @@ functionEditor.session.on("change", delta => {
     drawBeziers(true);
   } catch (e) {
     console.error(e);
+  }
+});
+
+let regressionRunning = false;
+const graphErrorEvery = 10;
+const errorDiv = document.getElementById("errorDiv");
+const toggleButton = document.getElementById("toggleRegression");
+
+const buttonTexts = { on: `stop regression`, off: `start regression` };
+toggleButton.innerText = buttonTexts.off;
+
+var errorChartCtx = document.getElementById("errorChart").getContext("2d");
+var errorChart = new Chart(errorChartCtx, {
+  type: "line",
+  data: {
+    datasets: [
+      {
+        label: "error",
+        data: []
+      }
+    ]
+  },
+  options: {
+    scales: {
+      xAxes: [
+        {
+          type: "linear",
+          position: "bottom"
+        }
+      ]
+    },
+    animation: {
+      duration: 0
+    }
+  }
+});
+
+const addErrorReading = (iteration, error, max) => {
+  if (!errorChart.data.datasets[0]) {
+    errorChart.data.datasets[0] = [];
+  }
+  errorChart.data.datasets[0].data.push({ x: iteration, y: error });
+  if (max && errorChart.data.datasets[0].data.length > max) {
+    errorChart.data.datasets[0].data.shift();
+  }
+  errorChart.update();
+};
+
+const clearErrorReadings = () => {
+  errorChart.data.datasets[0].data = [];
+};
+
+toggleButton.addEventListener("click", () => {
+  if (!regressionRunning) {
+    clearErrorReadings();
+    toggleButton.innerText = buttonTexts.on;
+    regressionRunning = true;
+    let iter = 0;
+    (function regressionLoop() {
+      const error = getError(beziers[0], regressionFunction, 0.01);
+      if (iter % graphErrorEvery == 0) addErrorReading(iter, error, 100);
+
+      errorDiv.innerText = error;
+      if (regressionRunning) {
+        beziers[0].inputPoints = regress(
+          beziers[0],
+          regressionFunction,
+          0.01,
+          0.001
+        );
+        drawBeziers(true);
+        requestAnimationFrame(regressionLoop);
+      }
+      iter++;
+    })();
+  } else {
+    toggleButton.innerText = buttonTexts.off;
+    clearInterval(regressionRunning);
+    regressionRunning = false;
   }
 });
 //ui

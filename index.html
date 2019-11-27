@@ -48,6 +48,9 @@
         </div>
         <div class="body">
           error: <span id="errorDiv"></span><br />
+          <div class="chart">
+            <canvas id="errorChart" width="200" height="200"></canvas>
+          </div>
           <button id="toggleRegression">start regression</button>
         </div>
       </div>
@@ -58,11 +61,13 @@
       </div>
     </div>
 
+    <script src="libs/ace-builds/src-noconflict/ace.js"></script>
+    <script src="libs/Chart.js"></script>
+
     <script src="js/Vector2.js" type="module"></script>
     <script src="js/bezier.js" type="module"></script>
     <script src="js/graphics.js" type="module"></script>
 
-    <script src="libs/ace-builds/src-noconflict/ace.js"></script>
     <script src="js/main.js" type="module"></script>
   </body>
 </html>

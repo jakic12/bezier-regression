@@ -49,3 +49,17 @@ body {
 .sidebar .sidebarSection .body {
   padding: 10px;
 }
+
+.sidebar .sidebarSection .body .chart {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.sidebar .sidebarSection .body .chart canvas {
+  flex-grow: 0;
+  width: 200px;
+  height: 200px;
+}
