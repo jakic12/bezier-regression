@@ -1,4 +1,9 @@
 export const drawCircle = (ctx, x, y, r, color, noFill, strokeColor) => {
+  if (window.viewingCenter) {
+    x += window.viewingCenter.x;
+    y += window.viewingCenter.y;
+  }
+
   const prevStroke = ctx.strokeStyle;
   const prevFill = ctx.fillStyle;
   if (strokeColor) ctx.strokeStyle = strokeColor;
@@ -19,7 +24,14 @@ export const drawCircle = (ctx, x, y, r, color, noFill, strokeColor) => {
   if (color) ctx.fillStyle = prevFill;
 };
 
-export const drawLine = (ctx, x1, y1, x2, y2, color, thickness=3) => {
+export const drawLine = (ctx, x1, y1, x2, y2, color, thickness = 3) => {
+  if (window.viewingCenter) {
+    x1 += window.viewingCenter.x;
+    y1 += window.viewingCenter.y;
+
+    x2 += window.viewingCenter.x;
+    y2 += window.viewingCenter.y;
+  }
   const prevStroke = ctx.strokeStyle;
   const prevLineWidth = ctx.lineWidth;
   if (thickness) ctx.lineWidth = thickness;
@@ -35,7 +47,12 @@ export const drawLine = (ctx, x1, y1, x2, y2, color, thickness=3) => {
   if (thickness) ctx.lineWidth = prevLineWidth;
 };
 
-export const drawLineWithMultiplePoints = (ctx, points, color, thickness=3) => {
+export const drawLineWithMultiplePoints = (
+  ctx,
+  points,
+  color,
+  thickness = 3
+) => {
   const prevStroke = ctx.strokeStyle;
   const prevLineWidth = ctx.lineWidth;
   if (thickness) ctx.lineWidth = thickness;
@@ -43,14 +60,14 @@ export const drawLineWithMultiplePoints = (ctx, points, color, thickness=3) => {
 
   ctx.beginPath();
   ctx.moveTo(
-    ctx.canvas.width / 2 + points[0].x,
-    ctx.canvas.height / 2 - points[0].y
+    ctx.canvas.width / 2 + points[0].x + (window.viewingCenter.x || 0),
+    ctx.canvas.height / 2 - points[0].y - (window.viewingCenter.y || 0)
   );
   points.forEach((p, i) => {
     if (i !== 0) {
       ctx.lineTo(
-        ctx.canvas.width / 2 + points[i].x,
-        ctx.canvas.height / 2 - points[i].y
+        ctx.canvas.width / 2 + points[i].x + (window.viewingCenter.x || 0),
+        ctx.canvas.height / 2 - points[i].y - (window.viewingCenter.y || 0)
       );
     }
   });

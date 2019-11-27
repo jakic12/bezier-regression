@@ -14,6 +14,14 @@ export default class Vector2 {
     return this;
   }
 
+  addNonMutative(vector) {
+    return new Vector2(this.x + vector.x, this.y + vector.y);
+  }
+
+  subtractNonMutative(vector) {
+    return new Vector2(this.x - vector.x, this.y - vector.y);
+  }
+
   subtract(vector) {
     this.x -= vector.x;
     this.y -= vector.y;

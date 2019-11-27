@@ -6,13 +6,16 @@ import regress, { getError } from "./regression.js";
 
 const canvas = document.getElementById(`mainCanvas`);
 const ctx = canvas.getContext("2d");
+
+window.viewingCenter = new Vector2(0, 0);
+const draggableView = true;
+
 var beziers = [];
 
 window.beziers = beziers;
 window.BezierGlobal = Bezier;
 
-let regressionFunction = x => Math.sin(x / 100) * 300;
-let dragging = undefined;
+let regressionFunction = x => x;
 
 const handleResize = e => {
   const newRect = canvas.parentElement.getBoundingClientRect();
@@ -23,10 +26,10 @@ const handleResize = e => {
 };
 const getMousePos = evt => {
   var rect = canvas.getBoundingClientRect();
-  return {
-    x: evt.clientX - rect.left - canvas.width / 2,
-    y: -evt.clientY - rect.top + canvas.height / 2
-  };
+  return new Vector2(
+    evt.clientX - rect.left - canvas.width / 2,
+    -evt.clientY - rect.top + canvas.height / 2
+  );
 };
 
 const drawBeziers = clear => {
@@ -48,7 +51,8 @@ beziers.push(
         .map(
           (_, i) =>
             new Vector2(
-              i * (canvas.width / (numOfPoints - 1)) - canvas.width / 2,
+              (i * (canvas.width / (numOfPoints - 1)) - canvas.width / 2) *
+                (+canvas.width > 1200 ? 0.6 : 0.8),
               (Math.random() * canvas.height * 2) / 2 - canvas.height / 2
             )
         )
@@ -75,32 +79,56 @@ for(let i = 0; i < 2*Math.PI; i += 0.06){beziers[0].inputPoints.push(new Point(i
 
 // COOL STUFF
 
+let dragging = undefined;
+let draggingView = false;
+
 window.addEventListener("resize", handleResize);
-window.addEventListener("mousedown", e => {
+canvas.addEventListener("mousedown", e => {
   const mousePos = getMousePos(e);
+  let clickedPoint = false;
 
   beziers.forEach(b => {
     b.inputPoints.forEach(p => {
       const distance = p.pos
         .clone()
-        .subtract(mousePos)
+        .subtract(mousePos.subtractNonMutative(window.viewingCenter))
         .magnitude();
       if (distance <= b.drawConfig.circleR) {
+        clickedPoint = true;
         dragging = p;
       }
     });
   });
+
+  if (!clickedPoint && draggableView) {
+    draggingView = {
+      mouse: getMousePos(e),
+      view: window.viewingCenter.clone()
+    };
+    canvas.style.cursor = "grab";
+  }
 });
 window.addEventListener("mousemove", e => {
   const mousePos = getMousePos(e);
   if (dragging) {
-    dragging.x = mousePos.x;
-    dragging.y = mousePos.y;
+    dragging.x = mousePos.x - window.viewingCenter.x;
+    dragging.y = mousePos.y - window.viewingCenter.y;
+
+    drawBeziers(true);
+  } else {
+    if (draggableView && draggingView) {
+      window.viewingCenter.x =
+        draggingView.view.x + (mousePos.x - draggingView.mouse.x);
+      window.viewingCenter.y =
+        draggingView.view.y + (mousePos.y - draggingView.mouse.y);
+      drawBeziers(true);
+    }
   }
-  drawBeziers(true);
 });
 window.addEventListener("mouseup", e => {
   dragging = undefined;
+  canvas.style.cursor = "auto";
+  draggingView = undefined;
 });
 
 //ui
@@ -157,7 +185,16 @@ animateMidPointLines.addEventListener("click", handleAnimateMidPointLines);
 var functionEditor = ace.edit("functionEditor");
 functionEditor.setTheme("ace/theme/monokai");
 functionEditor.session.setMode("ace/mode/javascript");
-functionEditor.setValue(regressionFunction.toString(), 1);
+
+const defaultRegText = `x => 
+  Math.sin(x / 100) * 300
+  // Math.pow(x / 50, 3)
+  // Math.pow(x / 50, 2)
+  // x
+  // Math.sin(x / 100) * 300 +x;`;
+
+regressionFunction = eval(defaultRegText);
+functionEditor.setValue(defaultRegText, 1);
 
 functionEditor.session.on("change", delta => {
   try {
@@ -180,7 +217,7 @@ document.getElementById("graphIterations").addEventListener("input", e => {
   }
 });
 
-let learningRate = 0.001;
+let learningRate = 0.03;
 document.getElementById("learningRate").value = learningRate;
 document.getElementById("learningRate").addEventListener("input", e => {
   if (e.target.value > 0) {
@@ -293,6 +330,7 @@ toggleButton.addEventListener("click", () => {
     regressionRunning = false;
   }
 });
+
 //ui
 
 drawBeziers(true);
