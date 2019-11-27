@@ -19,7 +19,7 @@ const handleResize = e => {
   canvas.width = newRect.width;
   canvas.height = newRect.height;
 
-  drawBeziers();
+  drawBeziers(true);
 };
 const getMousePos = evt => {
   var rect = canvas.getBoundingClientRect();
@@ -36,10 +36,6 @@ const drawBeziers = clear => {
   drawCoordinateSystem(ctx);
   drawFunction(ctx, regressionFunction);
   beziers.forEach(b => b.draw(ctx));
-
-  if (beziers[0]) {
-    console.log(getError(beziers[0], regressionFunction, 0.01));
-  }
 };
 handleResize();
 
@@ -173,7 +169,43 @@ functionEditor.session.on("change", delta => {
 });
 
 let regressionRunning = false;
-const graphErrorEvery = 10;
+let graphErrorEvery = 10;
+document.getElementById("graphIterations").value = graphErrorEvery;
+document.getElementById("graphIterations").addEventListener("input", e => {
+  if (e.target.value > 0) {
+    graphErrorEvery = +e.target.value;
+    drawBeziers(true);
+  } else {
+    e.target.value = graphErrorEvery;
+  }
+});
+
+let learningRate = 0.001;
+document.getElementById("learningRate").value = learningRate;
+document.getElementById("learningRate").addEventListener("input", e => {
+  if (e.target.value > 0) {
+    learningRate = +e.target.value;
+    drawBeziers(true);
+  } else {
+    e.target.value = learningRate;
+  }
+});
+
+let dT = 0.01;
+document.getElementById("dTInput").value = dT;
+document.getElementById("dTInput").addEventListener("input", e => {
+  if (e.target.value > 0) {
+    dT = +e.target.value;
+
+    beziers.forEach(b => {
+      b.drawConfig.bezierDt = dT;
+    });
+    drawBeziers(true);
+  } else {
+    e.target.value = dT;
+  }
+});
+
 const errorDiv = document.getElementById("errorDiv");
 const toggleButton = document.getElementById("toggleRegression");
 
@@ -189,7 +221,6 @@ var errorChart = new Chart(errorChartCtx, {
       {
         label: "error",
         data: [],
-        //borderColor: "#78dce8"
         borderColor: "#78dce8",
         pointBackgroundColor: "#78dce8",
         pointBorderColor: "#78dce8",
@@ -240,7 +271,7 @@ toggleButton.addEventListener("click", () => {
     regressionRunning = true;
     let iter = 0;
     (function regressionLoop() {
-      const error = getError(beziers[0], regressionFunction, 0.01);
+      const error = getError(beziers[0], regressionFunction, dT);
       if (iter % graphErrorEvery == 0) addErrorReading(iter, error, 100);
 
       errorDiv.innerText = error;
@@ -248,8 +279,8 @@ toggleButton.addEventListener("click", () => {
         beziers[0].inputPoints = regress(
           beziers[0],
           regressionFunction,
-          0.01,
-          0.001
+          dT,
+          learningRate
         );
         drawBeziers(true);
         requestAnimationFrame(regressionLoop);
@@ -264,4 +295,4 @@ toggleButton.addEventListener("click", () => {
 });
 //ui
 
-drawBeziers();
+drawBeziers(true);

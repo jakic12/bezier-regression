@@ -53,6 +53,24 @@
           </div>
           <button id="toggleRegression">start regression</button>
         </div>
+        <div class="body">
+          <table>
+            <tr>
+              <td>learning rate:</td>
+              <td>
+                <input id="learningRate" type="number" min="0" step="0.001" />
+              </td>
+            </tr>
+            <tr>
+              <td>graph every:</td>
+              <td><input id="graphIterations" type="number" min="1" /></td>
+            </tr>
+            <tr>
+              <td>line resolution:</td>
+              <td><input id="dTInput" type="number" min="0" step="0.001" /></td>
+            </tr>
+          </table>
+        </div>
       </div>
     </aside>
     <div class="mainBody">
