@@ -181,13 +181,20 @@ const buttonTexts = { on: `stop regression`, off: `start regression` };
 toggleButton.innerText = buttonTexts.off;
 
 var errorChartCtx = document.getElementById("errorChart").getContext("2d");
+Chart.defaults.global.defaultFontColor = "white";
 var errorChart = new Chart(errorChartCtx, {
   type: "line",
   data: {
     datasets: [
       {
         label: "error",
-        data: []
+        data: [],
+        //borderColor: "#78dce8"
+        borderColor: "#78dce8",
+        pointBackgroundColor: "#78dce8",
+        pointBorderColor: "#78dce8",
+        pointHoverBackgroundColor: "#ff6188",
+        pointHoverBorderColor: "#ff6188"
       }
     ]
   },
@@ -202,6 +209,11 @@ var errorChart = new Chart(errorChartCtx, {
     },
     animation: {
       duration: 0
+    },
+    legend: {
+      labels: {
+        fontColor: "white"
+      }
     }
   }
 });
