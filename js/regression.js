@@ -24,11 +24,11 @@ export default (bezier, fnct, timeD, learningRate = 0.01) => {
         for (let k = 0; k < layers[idx][l].length; k++) {
           if (k - 1 >= 0) {
             dLayersT[idx][l][k] +=
-              midPointDerivativeToSecond(t).y * layers[idx][l + 1][k - 1].y;
+              midPointDerivativeToSecond(t) * dLayersT[idx][l + 1][k - 1];
           }
           if (k < layers[idx][l + 1].length) {
             dLayersT[idx][l][k] +=
-              midPointDerivativeToFirst(t).y * layers[idx][l + 1][k].y;
+              midPointDerivativeToFirst(t) * dLayersT[idx][l + 1][k];
           }
         }
       }
@@ -64,8 +64,8 @@ export const convertTtoX = (bezier, t) => {
   ).x;
 };
 
-export const midPointDerivativeToFirst = t => new Vector2(1 - t, 1 - t);
-export const midPointDerivativeToSecond = t => new Vector2(t, t);
+export const midPointDerivativeToFirst = t => 1 - t;
+export const midPointDerivativeToSecond = t => t;
 
 export const mseDerivative = (out, expected) => {
   return out - expected;

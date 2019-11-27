@@ -43,7 +43,7 @@ const drawBeziers = clear => {
 };
 handleResize();
 
-const numOfPoints = 5;
+const numOfPoints = 10;
 beziers.push(
   new Bezier({
     points: vectorsToPoints(
