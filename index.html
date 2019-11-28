@@ -10,6 +10,28 @@
     <aside class="sidebar">
       <div class="sidebarSection">
         <div class="title">
+          bezier curves
+          <div class="titleButton">
+            <button id="shareButton">share</button>
+          </div>
+        </div>
+        <div class="body">
+          <div id="curves"></div>
+        </div>
+        <div class="body">
+          <form id="addCurve">
+            <input
+              type="number"
+              placeholder="number of points"
+              id="numberOfPoints"
+              required
+            />
+            <input type="submit" value="+" />
+          </form>
+        </div>
+      </div>
+      <div class="sidebarSection">
+        <div class="title">
           helpers
         </div>
         <div class="body">
@@ -41,6 +63,11 @@
           ></div>
           <br />
         </div>
+        <div class="body">
+          <button class="bigGreenButton" id="cycleFunctions">
+            Cycle trough functions
+          </button>
+        </div>
       </div>
       <div class="sidebarSection">
         <div class="title">
@@ -51,7 +78,9 @@
           <div class="chart">
             <canvas id="errorChart" width="200" height="200"></canvas>
           </div>
-          <button id="toggleRegression">start regression</button>
+          <button id="toggleRegression" class="bigGreenButton">
+            start regression
+          </button>
         </div>
         <div class="body">
           <table>
@@ -83,6 +112,7 @@
     <script src="libs/Chart.js"></script>
 
     <script src="js/Vector2.js" type="module"></script>
+    <script src="js/Point.js" type="module"></script>
     <script src="js/bezier.js" type="module"></script>
     <script src="js/graphics.js" type="module"></script>
 

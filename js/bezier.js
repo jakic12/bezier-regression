@@ -1,4 +1,5 @@
 import Vector2 from "./Vector2.js";
+import Point from "./Point.js";
 import { drawCircle, drawLineWithMultiplePoints } from "./graphics.js";
 
 export default class Bezier {
@@ -160,28 +161,3 @@ export const pointsToVectors = points => points.map(p => p.pos);
 export const getMidPoint = (a, b, t = 0.5) => {
   return new Vector2(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t);
 };
-
-class Point {
-  constructor(posVector, color) {
-    this.pos = posVector;
-    this.color = color;
-  }
-
-  get x() {
-    return this.pos.x;
-  }
-  set x(val) {
-    this.pos.x = val;
-  }
-
-  get y() {
-    return this.pos.y;
-  }
-  set y(val) {
-    this.pos.y = val;
-  }
-
-  clone() {
-    return new Point(new Vector2(this.pos.x, this.pos.y), this.color);
-  }
-}
