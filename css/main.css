@@ -1,4 +1,5 @@
 body {
+  font-family: "Nunito Sans", sans-serif;
   display: flex;
   flex-direction: row;
   padding: 0;
@@ -197,23 +198,66 @@ input[type="submit"]:hover {
   background: #1d2528;
 }
 
-.fullScreenWrapper{
-  position:absolute;
-  left:0;
-  top:0;
-  width:100vw;
-  height:100vh;
+#fullScreenWrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
 
-  z-index:10000;
+  z-index: 10000;
   background: #000000cc;
 
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
+
+  transition: opacity 1s;
 }
 
-.hideableModal{
-  padding:0px 10px 10px 10px;
-  border-radius: 5px; 
-  background: white;
+.hideableModal {
+  padding: 0px 10px 10px 10px;
+  border-radius: 5px;
+  background: #1d2528;
+  color: white;
+}
+
+a {
+  color: #78dce8;
+  transition: 0.1s padding;
+}
+
+.section {
+  padding: 10px;
+  padding-top: 0;
+}
+
+.section .title {
+  padding: 10px;
+  padding-left: 0;
+  margin: 0;
+  color: grey;
+}
+
+.section .body {
+}
+
+.hideableModal > .title {
+  border-bottom: 1px dashed grey;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+.hideableModal {
+  width: 50vw;
+}
+
+@media screen and (max-width: 600px) {
+  .hideableModal {
+    width: 100vw;
+    height: 100vh;
+  }
 }

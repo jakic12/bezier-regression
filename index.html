@@ -3,29 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/main.css" />
     <title>Bezier regression</title>
   </head>
   <body>
-    <div class="fullScreenWrapper">
+    <div id="fullScreenWrapper">
       <div class="hideableModal">
-        <h1>What is this?</h1>
-        <div class="section">
-          <div class="title">
-            playground
+        <div class="title">
+          <h1>What is this?</h1>
+        </div>
+        <div class="body">
+          <div class="section">
+            <h3 class="title">
+              Playground
+            </h3>
+            <div class="body">
+              <p>
+                It's a bezier playground, where you can create beziers and see a
+                visualisation of how they get drawn
+              </p>
+            </div>
           </div>
-          <div class="body">
-            It's a bezier playground, where you can create beziers and see a visualisation of how it gets drawn
+          <div class="section">
+            <h3 class="title">
+              Regression
+            </h3>
+            <div class="body">
+              <p>
+                As an experiment, you can approximate a function with a bezier.
+                If you want to know more, you can read
+                <a
+                  style="display: inline;"
+                  href="https://github.com/jakic12/bezier-regression/blob/master/docs/math.pdf"
+                  >the paper</a
+                >.
+              </p>
+            </div>
+            <div class="closeButton">
+              <button
+                class="bigGreenButton"
+                onclick="document.getElementById('fullScreenWrapper').style.opacity = 0;setTimeout(() => {document.getElementById('fullScreenWrapper').style.display = `none`},1000)"
+              >
+                Hide
+              </button>
+            </div>
           </div>
         </div>
-        <div class="section">
-            <div class="title">
-              regression
-            </div>
-            <div class="body">
-              As an experiment, you can approximate a function with a bezier. If you want to know more, you can read <a href="https://github.com/jakic12/bezier-regression/blob/master/docs/math.pdf">the paper</a>.
-            </div>
-          </div>
       </div>
     </div>
     <aside class="sidebar">
